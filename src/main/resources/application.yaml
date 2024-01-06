@@ -34,10 +34,10 @@ spring:
   sql:
     init:
       mode: always
-#  data:
-#    rest:
-#      base-path: /api
-#      detection-strategy: annotated
+  data:
+    rest:
+      base-path: /api
+      detection-strategy: annotated #spring data document 에 설명되어있음
 
 ---
 #
