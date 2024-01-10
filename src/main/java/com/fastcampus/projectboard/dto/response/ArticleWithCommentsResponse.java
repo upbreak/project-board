@@ -15,7 +15,7 @@ public record ArticleWithCommentsResponse(
         , LocalDateTime createAt
         , String email
         , String nickname
-        , Set<ArticleCommentResponse> articleCommentResponses
+        , Set<ArticleCommentResponse> articleCommentsResponse
 ) {
     public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
         return new ArticleWithCommentsResponse(id, title, content, hashtag, createAt, email, nickname, articleCommentResponses);
