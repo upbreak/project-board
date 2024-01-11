@@ -49,8 +49,10 @@ public class ArticleController {
             , ModelMap map
     ){
         ArticleWithCommentsResponse article = ArticleWithCommentsResponse.from(articleService.getArticle(articleId));
+
         map.addAttribute("article", article);
         map.addAttribute("articleComments", article.articleCommentsResponse());
+        map.addAttribute("articleTotalCount", articleService.getArticleCount());
 
         return "articles/detail";
     }
