@@ -26,8 +26,6 @@
                 </attr>
             </attr>
         </attr>
-<<<<<<< Updated upstream
-=======
 
         <attr sel="#pagination">
             <attr sel="li[0]/a"
@@ -48,26 +46,5 @@
                   th:class="'page-link' + (${articles.number} <= ${articles.totalPages -1} ? ' disabled' : '')"
             />
         </attr>
->>>>>>> Stashed changes
-    </attr>
-
-    <attr sel="#pagination">
-        <attr sel="li[0]/a"
-              th:text="Pre"
-              th:href="@{/articles(page=${articles.number - 1})}"
-              th:class="'page-link' + (${articles.number} <= 0 ? ' disabled' : '')"
-        />
-        <attr sel="li[1]" th:class="page-item" th:each="pageNum : ${paginationBarNumbers}">
-            <attr sel="a"
-                  th:text="${pageNum + 1}"
-                  th:href="@{/articles(page = ${pageNum})}"
-                  th:class="'page-link' + (${pageNum} == ${articles.number} ? ' disabled' : '')"
-            />
-        </attr>
-        <attr sel="li[2]/a"
-              th:text="Next"
-              th:href="@{/articles(page = ${articles.number + 1})}"
-              th:class="'page-link' + (${articles.number} <= ${articles.totalPages -1} ? ' disabled' : '')"
-        />
     </attr>
 </thlogic>
