@@ -12,7 +12,7 @@ import java.util.Objects;
 @ToString
 @Table(indexes = {
         @Index(columnList = "userId", unique = true),
-        @Index(columnList = "email"),
+        @Index(columnList = "email",unique = true),
         @Index(columnList = "createAt"),
         @Index(columnList = "createBy")
 })
