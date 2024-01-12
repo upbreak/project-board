@@ -43,7 +43,7 @@
             <attr sel="li[2]/a"
                   th:text="Next"
                   th:href="@{/articles(page = ${articles.number + 1})}"
-                  th:class="'page-link' + (${articles.number} <= ${articles.totalPages -1} ? ' disabled' : '')"
+                  th:class="'page-link' + (${articles.number} >= ${articles.totalPages -1} ? ' disabled' : '')"
             />
         </attr>
     </attr>
