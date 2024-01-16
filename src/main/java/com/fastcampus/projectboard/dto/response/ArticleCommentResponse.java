@@ -10,9 +10,10 @@ public record ArticleCommentResponse(
         , LocalDateTime createAt
         , String email
         , String nickname
+        , String userId
 ) {
-    public static ArticleCommentResponse of(Long id, String content, LocalDateTime createAt, String email, String nickname) {
-        return new ArticleCommentResponse(id, content, createAt, email, nickname);
+    public static ArticleCommentResponse of(Long id, String content, String userId, LocalDateTime createAt, String email, String nickname) {
+        return new ArticleCommentResponse(id, content, createAt, email, nickname, userId);
     }
 
     public static ArticleCommentResponse from(ArticleCommentDto dto){
@@ -27,6 +28,7 @@ public record ArticleCommentResponse(
                 , dto.createAt()
                 , dto.userAccountDto().email()
                 , nickname
+                , dto.userAccountDto().userId()
         );
     }
 }
