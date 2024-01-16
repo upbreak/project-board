@@ -2,6 +2,7 @@ package com.fastcampus.projectboard.dto;
 
 import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.ArticleComment;
+import com.fastcampus.projectboard.domain.UserAccount;
 
 import java.time.LocalDateTime;
 
@@ -18,8 +19,8 @@ public record ArticleCommentDto(
         , LocalDateTime modifiedAt
         , String modifiedBy
 ) {
-    public static ArticleCommentDto of(Long id, Long articleId, UserAccountDto userAccountDto, String content, LocalDateTime createAt, String createBy, LocalDateTime modifiedAt, String modifiedBy) {
-        return new ArticleCommentDto(id, articleId, userAccountDto, content, createAt, createBy, modifiedAt, modifiedBy);
+    public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
+        return new ArticleCommentDto(null, articleId, userAccountDto, content, null, null, null, null);
     }
 
     public static ArticleCommentDto from(ArticleComment entity){
@@ -35,7 +36,7 @@ public record ArticleCommentDto(
         );
     }
 
-    public ArticleComment toEntity(Article entity){
-        return ArticleComment.of(entity, userAccountDto.toEntity(), content);
+    public ArticleComment toEntity(Article entity, UserAccount userAccount){
+        return ArticleComment.of(entity, userAccount, content);
     }
 }
