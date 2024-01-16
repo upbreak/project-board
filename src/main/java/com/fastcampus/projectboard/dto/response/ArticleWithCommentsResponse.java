@@ -15,10 +15,11 @@ public record ArticleWithCommentsResponse(
         , LocalDateTime createAt
         , String email
         , String nickname
+        , String userId
         , Set<ArticleCommentResponse> articleCommentsResponse
 ) {
-    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
-        return new ArticleWithCommentsResponse(id, title, content, hashtag, createAt, email, nickname, articleCommentResponses);
+    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
+        return new ArticleWithCommentsResponse(id, title, content, hashtag, createAt, email, nickname, userId, articleCommentResponses);
     }
 
     public static ArticleWithCommentsResponse from(ArticleWithCommentsDto dto){
@@ -35,6 +36,7 @@ public record ArticleWithCommentsResponse(
                 , dto.createAt()
                 , dto.userAccountDto().email()
                 , nickname
+                , dto.userAccountDto().userId()
                 , dto.articleCommentDtos().stream()
                         .map(ArticleCommentResponse::from)
                         .collect(Collectors.toCollection(LinkedHashSet::new))

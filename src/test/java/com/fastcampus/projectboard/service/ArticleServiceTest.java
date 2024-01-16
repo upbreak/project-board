@@ -195,9 +195,10 @@ class ArticleServiceTest {
         Article article = createArticle();
         ArticleDto dto = createArticleDto("새 타이틀", "새 내용", "#springboot");
         given(articleRepository.getReferenceById(articleId)).willReturn(article);
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(dto.userAccountDto().toEntity());
 
         //when
-        sut.updateArticle(dto.id(), dto);
+        sut.updateArticle(articleId, dto);
 
         //then
         assertThat(article)
@@ -205,6 +206,7 @@ class ArticleServiceTest {
                 .hasFieldOrPropertyWithValue("content", dto.content())
                 .hasFieldOrPropertyWithValue("hashtag", dto.hashtag());
         then(articleRepository).should().getReferenceById(articleId);
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
     }
 
     @DisplayName("없는 게시글의 수정 정보를 입력하면, 경고 로그를 찍고 아무 것도 하지 않는다.")
@@ -227,13 +229,14 @@ class ArticleServiceTest {
     void givenArticleIdInfo_whenDeletingArticle_thenDeleteArticle() {
         //given
         Long articleId = 1L;
-        willDoNothing().given(articleRepository).deleteById(articleId);
+        String userId = "jinwooTest";
+        willDoNothing().given(articleRepository).deleteByIdAndUserAccount_UserId(articleId, userId);
 
         //when
-        sut.deleteArticle(articleId);
+        sut.deleteArticle(articleId, userId);
 
         //then
-        then(articleRepository).should().deleteById(articleId);
+        then(articleRepository).should().deleteByIdAndUserAccount_UserId(articleId, userId);
     }
 
     @DisplayName("해시태그를 조회하면, 유니크 해시태그 리스트를 반환한다.")
@@ -265,9 +268,9 @@ class ArticleServiceTest {
     private Article createArticle() {
         Article article = Article.of(
                 createUserAccount(),
-                "title",
-                "content",
-                "#java"
+                "새 타이틀",
+                "새 내용",
+                "#springboot"
         );
 
         ReflectionTestUtils.setField(article, "id", 1L);
@@ -293,11 +296,7 @@ class ArticleServiceTest {
                 "password",
                 "jinwoo@mail.com",
                 "jinwoo",
-                "This is memo",
-                LocalDateTime.now(),
-                "jinwoo",
-                LocalDateTime.now(),
-                "jinwoo"
+                "This is memo"
         );
     }
 }
