@@ -24,11 +24,6 @@ public class ArticleCommentService {
     private final ArticleCommentRepository articleCommentRepository;
     private final UserAccountRepository userAccountRepository;
 
-    @Transactional(readOnly = true)
-    public List<ArticleCommentDto> searchArticleComments(Long articleId) {
-        return List.of();
-    }
-
     public void saveArticleComment(ArticleCommentDto dto) {
         try {
             Article article = articleRepository.getReferenceById(dto.articleId());
@@ -39,11 +34,8 @@ public class ArticleCommentService {
         }
     }
 
-    public void updateArticleComment(ArticleCommentDto dto) {
-    }
-
-    public void deleteArticleComment(Long articleCommentId) {
-        articleCommentRepository.deleteById(articleCommentId);
+    public void deleteArticleComment(Long articleCommentId, String userId) {
+        articleCommentRepository.deleteByIdAndUserAccount_UserId(articleCommentId, userId);
     }
 
 }
