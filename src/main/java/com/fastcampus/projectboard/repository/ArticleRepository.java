@@ -24,18 +24,17 @@ public interface ArticleRepository extends
     Page<Article> findByContentContaining(String content, Pageable pageable);
     Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
     Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
-    Page<Article> findByHashtag(String hashtag, Pageable pageable);
 
     void deleteByIdAndUserAccount_UserId(Long articleId, String userId);
 
     @Override
     default void customize(QuerydslBindings bindings, QArticle root){
         bindings.excludeUnlistedProperties(true); //QuerydslPredicateExecutor에 의해서 모든 필드의 검색이 열려 있어서 닫아준다
-        bindings.including(root.title, root.content, root.hashtag, root.createAt, root.createBy); //원하는 검색 필드를 설정
+        bindings.including(root.title, root.content, root.hashtags, root.createAt, root.createBy); //원하는 검색 필드를 설정
 //        bindings.bind(root.title).first(StringExpression::likeIgnoreCase); // like '{value}'
         bindings.bind(root.title).first(StringExpression::containsIgnoreCase); // like '%{value}%'
         bindings.bind(root.content).first(StringExpression::containsIgnoreCase); // like '%{value}%'
-        bindings.bind(root.hashtag).first(StringExpression::containsIgnoreCase); // like '%{value}%'
+        bindings.bind(root.hashtags.any().hashtagName).first(StringExpression::containsIgnoreCase); // like '%{value}%'
         bindings.bind(root.createAt).first(DateTimeExpression::eq); // like '%{value}%'
         bindings.bind(root.createBy).first(StringExpression::containsIgnoreCase); // like '%{value}%'
     }

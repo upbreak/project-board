@@ -1,6 +1,7 @@
 package com.fastcampus.projectboard.dto.response;
 
 import com.fastcampus.projectboard.dto.ArticleWithCommentsDto;
+import com.fastcampus.projectboard.dto.HashtagDto;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -11,15 +12,15 @@ public record ArticleWithCommentsResponse(
         Long id
         , String title
         , String content
-        , String hashtag
+        , Set<String> hashtags
         , LocalDateTime createAt
         , String email
         , String nickname
         , String userId
         , Set<ArticleCommentResponse> articleCommentsResponse
 ) {
-    public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
-        return new ArticleWithCommentsResponse(id, title, content, hashtag, createAt, email, nickname, userId, articleCommentResponses);
+    public static ArticleWithCommentsResponse of(Long id, String title, String content, Set<String> hashtags, LocalDateTime createAt, String email, String nickname, String userId, Set<ArticleCommentResponse> articleCommentResponses) {
+        return new ArticleWithCommentsResponse(id, title, content, hashtags, createAt, email, nickname, userId, articleCommentResponses);
     }
 
     public static ArticleWithCommentsResponse from(ArticleWithCommentsDto dto){
@@ -32,7 +33,9 @@ public record ArticleWithCommentsResponse(
                 dto.id()
                 , dto.title()
                 , dto.content()
-                , dto.hashtag()
+                , dto.hashtagDtos().stream()
+                        .map(HashtagDto::hashtagName)
+                        .collect(Collectors.toUnmodifiableSet())
                 , dto.createAt()
                 , dto.userAccountDto().email()
                 , nickname

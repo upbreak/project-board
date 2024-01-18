@@ -11,15 +11,15 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Getter
-@ToString(callSuper = true)
+@ToString(callSuper = true) //callSuper = true - AuditingFields 도 같이 출력될 수 있게끔 설정
 @Table(indexes = {
         @Index(columnList = "title"),
-        @Index(columnList = "hashtag"),
         @Index(columnList = "createAt"),
         @Index(columnList = "createBy")
 })
@@ -35,7 +35,14 @@ public class Article extends AuditingFields{
     @Setter @Column(nullable = false) private String title;   //제목
     @Setter @Column(nullable = false, length = 10000) private String content; //본문
 
-    @Setter private String hashtag; //해시태그
+    @ToString.Exclude
+    @JoinTable(
+            name = "article_hashtag"
+            , joinColumns = @JoinColumn(name = "articleId")
+            , inverseJoinColumns = @JoinColumn(name = "hashtagId")
+    )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
 //    @OrderBy("id")
     @OrderBy("createBy desc ")
@@ -46,17 +53,27 @@ public class Article extends AuditingFields{
     protected Article() {
     }
 
-    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
-        this.hashtag = hashtag;
     }
 
-    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
-        return new Article(userAccount, title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content) {
+        return new Article(userAccount, title, content);
     }
 
+    public void addHashtag(Hashtag hashtag){
+        this.getHashtags().add(hashtag);
+    }
+
+    public void addHashtags(Collection<Hashtag> hashtags){
+        this.getHashtags().addAll(hashtags);
+    }
+
+    public void clearHashtags(){
+        this.getHashtags().clear();
+    }
 
     @Override
     public boolean equals(Object o) {
