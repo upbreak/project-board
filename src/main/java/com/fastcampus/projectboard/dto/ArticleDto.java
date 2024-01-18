@@ -4,6 +4,8 @@ import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.UserAccount;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * DTO for {@link com.fastcampus.projectboard.domain.Article}
@@ -13,14 +15,14 @@ public record ArticleDto(
         , UserAccountDto userAccountDto
         , String title
         , String content
-        , String hashtag
+        , Set<HashtagDto> hashtagDtos
         , LocalDateTime createAt
         , String createBy
         , LocalDateTime modifiedAt
         , String modifiedBy
 ) {
-    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag) {
-        return new ArticleDto(null, userAccountDto, title, content, hashtag, null, null, null, null);
+    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, Set<HashtagDto> hashtagDtos) {
+        return new ArticleDto(null, userAccountDto, title, content, hashtagDtos, null, null, null, null);
     }
 
     public static ArticleDto from(Article entity){
@@ -29,7 +31,9 @@ public record ArticleDto(
                 , UserAccountDto.from(entity.getUserAccount())
                 , entity.getTitle()
                 , entity.getContent()
-                , entity.getHashtag()
+                , entity.getHashtags().stream()
+                        .map(HashtagDto::from)
+                        .collect(Collectors.toUnmodifiableSet())
                 , entity.getCreateAt()
                 , entity.getCreateBy()
                 , entity.getModifiedAt()
@@ -38,6 +42,6 @@ public record ArticleDto(
     }
 
     public Article toEntity(UserAccount userAccount){
-        return Article.of(userAccount, title, content, hashtag);
+        return Article.of(userAccount, title, content);
     }
 }

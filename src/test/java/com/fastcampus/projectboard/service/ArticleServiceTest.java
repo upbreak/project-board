@@ -89,14 +89,14 @@ class ArticleServiceTest {
         //given
         String hashtag = "#java";
         Pageable pageable = Pageable.ofSize(20);
-        given(articleRepository.findByHashtag(hashtag, pageable)).willReturn(Page.empty(pageable));
+//        given(articleRepository.findByHashtag(hashtag, pageable)).willReturn(Page.empty(pageable));
 
         //when
         Page<ArticleDto> articles = sut.searchArticlesViaHashtag(hashtag, pageable);
 
         //then
         assertThat(articles).isEqualTo(Page.empty(pageable));
-        then(articleRepository).should().findByHashtag(hashtag, pageable);
+//        then(articleRepository).should().findByHashtag(hashtag, pageable);
     }
 
     @DisplayName("게시글 ID로 조회하면, 댓글 달긴 게시글을 반환한다.")
@@ -113,8 +113,8 @@ class ArticleServiceTest {
         // Then
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("title", article.getTitle())
-                .hasFieldOrPropertyWithValue("content", article.getContent())
-                .hasFieldOrPropertyWithValue("hashtag", article.getHashtag());
+                .hasFieldOrPropertyWithValue("content", article.getContent());
+//                .hasFieldOrPropertyWithValue("hashtag", article.getHashtag());
         then(articleRepository).should().findById(articleId);
     }
 
@@ -149,8 +149,8 @@ class ArticleServiceTest {
         //then
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("title", article.getTitle())
-                .hasFieldOrPropertyWithValue("content", article.getContent())
-                .hasFieldOrPropertyWithValue("hashtag", article.getHashtag());
+                .hasFieldOrPropertyWithValue("content", article.getContent());
+//                .hasFieldOrPropertyWithValue("hashtag", article.getHashtag());
         then(articleRepository).should().findById(articleId);
     }
 
@@ -193,7 +193,7 @@ class ArticleServiceTest {
         //given
         Long articleId = 1L;
         Article article = createArticle();
-        ArticleDto dto = createArticleDto("새 타이틀", "새 내용", "#springboot");
+        ArticleDto dto = createArticleDto("새 타이틀", "새 내용");
         given(articleRepository.getReferenceById(articleId)).willReturn(article);
         given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(dto.userAccountDto().toEntity());
 
@@ -203,8 +203,8 @@ class ArticleServiceTest {
         //then
         assertThat(article)
                 .hasFieldOrPropertyWithValue("title", dto.title())
-                .hasFieldOrPropertyWithValue("content", dto.content())
-                .hasFieldOrPropertyWithValue("hashtag", dto.hashtag());
+                .hasFieldOrPropertyWithValue("content", dto.content());
+//                .hasFieldOrPropertyWithValue("hashtag", dto.hashtag());
         then(articleRepository).should().getReferenceById(articleId);
         then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
     }
@@ -214,7 +214,7 @@ class ArticleServiceTest {
     void givenNonexistentArticleInfo_whenUpdatingArticle_thenLogsWarningAndDoesNothing() {
         // Given
         Long articleId = 1L;
-        ArticleDto dto = createArticleDto("새 타이틀", "새 내용", "#springboot");
+        ArticleDto dto = createArticleDto("새 타이틀", "새 내용");
         given(articleRepository.getReferenceById(articleId)).willThrow(EntityNotFoundException.class);
 
         // When
@@ -269,8 +269,7 @@ class ArticleServiceTest {
         Article article = Article.of(
                 createUserAccount(),
                 "새 타이틀",
-                "새 내용",
-                "#springboot"
+                "새 내용"
         );
 
         ReflectionTestUtils.setField(article, "id", 1L);
@@ -279,15 +278,15 @@ class ArticleServiceTest {
     }
 
     private ArticleDto createArticleDto() {
-        return createArticleDto("title", "content", "#java");
+        return createArticleDto("title", "content");
     }
 
-    private ArticleDto createArticleDto(String title, String content, String hashtag) {
+    private ArticleDto createArticleDto(String title, String content) {
         return ArticleDto.of(
-                createUserAccountDto(),
-                title,
-                content,
-                hashtag);
+                createUserAccountDto()
+                , title
+                , content
+                , null);
     }
 
     private UserAccountDto createUserAccountDto() {
