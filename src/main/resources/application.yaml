@@ -11,10 +11,13 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/board
-    username: jinwoo
-    password: adsw0530
-    driver-class-name : com.mysql.cj.jdbc.Driver #mysql8???? ??? ? ?? ????
+#    url: jdbc:mysql://localhost:3306/board
+    url: jdbc:postgresql://localhost:5432/board
+#    username: jinwoo
+#    password: adsw0530 #mysql
+    username: postgres
+    password: 1234 #postpresql
+#    driver-class-name : com.mysql.cj.jdbc.Driver
 #    url: jdbc:h2:mem:testdb
 #    username: sa
 #    driver-class-name: org.h2.Driver
