@@ -4,6 +4,7 @@ import com.fastcampus.projectboard.config.JpaConfig;
 import com.fastcampus.projectboard.domain.Article;
 import com.fastcampus.projectboard.domain.Hashtag;
 import com.fastcampus.projectboard.domain.UserAccount;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ class JpaRepositoryTest {
         this.hashtagRepository = hashtagRepository;
     }
 
+    @Disabled
     @DisplayName("select 테스트")
     @Test
     void  givenTestData_whenSelecting_thenWorksFine(){

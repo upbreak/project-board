@@ -34,8 +34,8 @@ public class ArticleRepositoryCustomImpl extends QuerydslRepositorySupport imple
         QArticle article = QArticle.article;
 
         JPQLQuery<Article> query = from(article)
-                .innerJoin(article.hashtags, hashtag)
-                .where(hashtag.hashtagName.in(hashtagNames));
+                                    .innerJoin(article.hashtags, hashtag)
+                                    .where(hashtag.hashtagName.in(hashtagNames));
         List<Article> articles = getQuerydsl().applyPagination(pageable, query).fetch();
 
         return new PageImpl<>(articles, pageable, query.fetchCount());
