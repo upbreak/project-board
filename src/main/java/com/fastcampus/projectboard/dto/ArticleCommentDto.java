@@ -13,14 +13,18 @@ public record ArticleCommentDto(
         Long id
         , Long articleId
         , UserAccountDto userAccountDto
+        , Long parentCommentId
         , String content
         , LocalDateTime createAt
         , String createBy
         , LocalDateTime modifiedAt
-        , String modifiedBy
-) {
+        , String modifiedBy) {
     public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
-        return new ArticleCommentDto(null, articleId, userAccountDto, content, null, null, null, null);
+        return ArticleCommentDto.of(articleId, userAccountDto, null, content);
+    }
+
+    public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, Long parentCommentId, String content) {
+        return new ArticleCommentDto(null, articleId, userAccountDto, parentCommentId, content, null, null, null, null);
     }
 
     public static ArticleCommentDto from(ArticleComment entity){
@@ -28,6 +32,7 @@ public record ArticleCommentDto(
                 entity.getId()
                 , entity.getArticle().getId()
                 , UserAccountDto.from(entity.getUserAccount())
+                , entity.getParentCommentId()
                 , entity.getContent()
                 , entity.getCreateAt()
                 , entity.getCreateBy()
