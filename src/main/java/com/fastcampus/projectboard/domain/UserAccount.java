@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.util.Objects;
 
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "email",unique = true),
         @Index(columnList = "createAt"),
@@ -25,20 +25,26 @@ public class UserAccount extends AuditingFields{
     @Setter @Column(nullable = false) private String userPassword;
     @Setter @Column(nullable = false, length = 100) private String email;
     @Setter @Column(nullable = false, length = 100) private String nickname;
-    @Setter @Column(nullable = false, length = 255) private String memo;
+    @Setter private String memo;
 
     protected UserAccount() {}
 
-    private UserAccount(String userId, String userPassword, String email, String nickname, String memo) {
+    private UserAccount(String userId, String userPassword, String email, String nickname, String memo, String createBy) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.email = email;
         this.nickname = nickname;
         this.memo = memo;
+        this.createBy = createBy;
+        this.modifiedBy = createBy;
     }
 
     public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo) {
-        return new UserAccount(userId, userPassword, email, nickname, memo);
+        return new UserAccount(userId, userPassword, email, nickname, memo, null);
+    }
+
+    public static UserAccount of(String userId, String userPassword, String email, String nickname, String memo, String createBy) {
+        return new UserAccount(userId, userPassword, email, nickname, memo, createBy);
     }
 
     @Override
