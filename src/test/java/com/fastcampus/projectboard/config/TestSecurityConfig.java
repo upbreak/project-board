@@ -1,28 +1,36 @@
 package com.fastcampus.projectboard.config;
 
-import com.fastcampus.projectboard.domain.UserAccount;
-import com.fastcampus.projectboard.repository.UserAccountRepository;
+import com.fastcampus.projectboard.dto.UserAccountDto;
+import com.fastcampus.projectboard.service.UserAccountService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;
 
 import java.util.Optional;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.BDDMockito.anyString;
+import static org.mockito.BDDMockito.given;
 
 @Import(SecurityConfig.class)
 public class TestSecurityConfig {
 
-    @MockBean private UserAccountRepository userAccountRepository;
+    @MockBean private UserAccountService userAccountService;
 
     @BeforeTestMethod
     public void securitySetUp(){
-        given(userAccountRepository.findById(anyString())).willReturn(Optional.of(UserAccount.of(
+        given(userAccountService.searchUser(anyString()))
+                .willReturn(Optional.of(createUserAccountDto()));
+        given(userAccountService.saveUser(anyString(), anyString(), anyString(), anyString(), anyString()))
+                .willReturn(createUserAccountDto());
+    }
+
+    private UserAccountDto createUserAccountDto(){
+        return UserAccountDto.of(
                 "jinwooTest"
                 , "pw"
                 , "jinwoo@email.com"
                 , "nickname"
                 , "memo"
-        )));
+        );
     }
 }
