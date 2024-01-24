@@ -1,10 +1,10 @@
 가장 기본적이고 보편적인 게시판 기능
 
 ## 개발 환경
-* Intellij IDEA Ultimate 2022.1.1 ~ 2022.1.3
+* Intellij IDEA Ultimate 2023.3.2
 * Java 17
-* Gradle 7.4.1
-* Spring Boot 2.7.0
+* Gradle 8.5
+* Spring Boot 3.2.1
 
 ## 기술 세부 스택
 Spring Boot
