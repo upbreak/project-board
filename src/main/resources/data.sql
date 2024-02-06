@@ -5,6 +5,12 @@ values('jinwoo', '{noop}asdf1234', 'Jinwoo', 'upbreak@email.com', 'Im jinwoo', n
 insert into user_account(user_id, user_password, nickname, email, memo, create_at, create_by, modified_at, modified_by)
 values('jinwoo2', '{noop}asdf1234', 'Jinwoo2', 'upbreak2@email.com', 'Im jinwoo2', now(), 'jinwoo2', now(), 'jinwoo2');
 
+insert into user_account(user_id, user_password, nickname, email, memo, create_at, create_by, modified_at, modified_by)
+values('jinwoo3', '{noop}asdf1234', 'Jinwoo3', 'upbreak3@email.com', 'Im jinwoo3', now(), 'jinwoo3', now(), 'jinwoo3');
+
+insert into user_account(user_id, user_password, nickname, email, memo, create_at, create_by, modified_at, modified_by)
+values('jinwoo4', '{noop}asdf1234', 'Jinwoo4', 'upbreak4@email.com', 'Im jinwoo4', now(), 'jinwoo4', now(), 'jinwoo4');
+
 -----------------------------------------------------------------------------------
 
 -- 게시글
