@@ -1,6 +1,7 @@
 package com.fastcampus.projectboard.repository;
 
 import com.fastcampus.projectboard.domain.ArticleComment;
+import com.fastcampus.projectboard.domain.Projection.ArticleCommentProjection;
 import com.fastcampus.projectboard.domain.QArticleComment;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
@@ -12,7 +13,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource
+@RepositoryRestResource(excerptProjection = ArticleCommentProjection.class)
 public interface ArticleCommentRepository extends
         JpaRepository<ArticleComment, Long>
         , QuerydslPredicateExecutor<ArticleComment>
