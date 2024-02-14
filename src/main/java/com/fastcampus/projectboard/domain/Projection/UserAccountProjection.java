@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Projection(name = "withoutPassword", types = UserAccount.class)
 public interface UserAccountProjection {
-    Long getUserId();
+    String getUserId();
     String getEmail();
     String getNickname();
     String getMemo();

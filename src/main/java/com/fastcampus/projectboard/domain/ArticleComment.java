@@ -31,23 +31,23 @@ public class ArticleComment extends AuditingFields{
 
     @Setter
     @ManyToOne(optional = false)
-    private Article article;    //게시글 id
+    private Article article; // 게시글 (ID)
 
     @Setter
-    @ManyToOne(optional = false)
     @JoinColumn(name = "userId")
-    private UserAccount userAccount; //유저정보(id)
+    @ManyToOne(optional = false)
+    private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter
     @Column(updatable = false)
-    private Long parentCommentId;//부모댓글 (id)
+    private Long parentCommentId; // 부모 댓글 ID
 
     @ToString.Exclude
     @OrderBy("createAt ASC")
     @OneToMany(mappedBy = "parentCommentId", cascade = CascadeType.ALL)
     private Set<ArticleComment> childComments = new LinkedHashSet<>();
 
-    @Setter @Column(nullable = false, length = 500) private String content;     //본문
+    @Setter @Column(nullable = false, length = 500) private String content; // 본문
 
     protected ArticleComment() {
     }

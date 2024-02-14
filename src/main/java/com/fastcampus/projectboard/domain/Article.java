@@ -30,24 +30,27 @@ public class Article extends AuditingFields{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter @ManyToOne(optional = false) @JoinColumn(name = "userId") private UserAccount userAccount;
+    @Setter
+    @JoinColumn(name = "userId")
+    @ManyToOne(optional = false)
+    private UserAccount userAccount; // 유저 정보 (ID)
 
-    @Setter @Column(nullable = false) private String title;   //제목
-    @Setter @Column(nullable = false, length = 10000) private String content; //본문
+    @Setter @Column(nullable = false) private String title; // 제목
+    @Setter @Column(nullable = false, length = 10000) private String content; // 본문
 
     @ToString.Exclude
     @JoinTable(
-            name = "article_hashtag"
-            , joinColumns = @JoinColumn(name = "articleId")
-            , inverseJoinColumns = @JoinColumn(name = "hashtagId")
+            name = "article_hashtag",
+            joinColumns = @JoinColumn(name = "articleId"),
+            inverseJoinColumns = @JoinColumn(name = "hashtagId")
     )
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Hashtag> hashtags = new LinkedHashSet<>();
 
 //    @OrderBy("id")
-    @OrderBy("createBy desc ")
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     @ToString.Exclude
+    @OrderBy("createAt DESC")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
     protected Article() {
